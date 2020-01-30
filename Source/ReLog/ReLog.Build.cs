@@ -32,6 +32,7 @@ public class ReLog : ModuleRules
 			new string[]
 			{
 				"Core",
+                "depsReLog"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -43,8 +44,7 @@ public class ReLog : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
-				"depsReLog"
+				"SlateCore"
 				// ... add private dependencies that you statically link with here ...
 			}
 			);
@@ -56,5 +56,7 @@ public class ReLog : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
+            
+        bUseRTTI = true;
 	}
 }

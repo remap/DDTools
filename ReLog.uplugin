@@ -3,7 +3,7 @@
 	"Version": 1,
 	"VersionName": "1.0",
 	"FriendlyName": "ReLog",
-	"Description": "A boilerplate code for a general C++/BP plugin with automatic handling of third-party dependencies.",
+	"Description": "ReLog - \"Real Logging\" - a plugin that provides C++ interface for logging based on spdlog.",
 	"Category": "Other",
 	"CreatedBy": "Peter Gusev",
 	"CreatedByURL": "gusev.io",
@@ -16,6 +16,14 @@
 	"Modules": [
 		{
 			"Name": "ReLog",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Mac"
+			]
+		},
+		{
+			"Name": "ReLogBP",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [

@@ -3,7 +3,7 @@
 //
 //  Generated on January 27 2020
 //  Template created by Peter Gusev on 27 January 2020.
-//  Copyright 2013-2019 Regents of the University of California
+//  Copyright 2013-2020 Regents of the University of California
 //
 
 // A Boilerplate code for a C++/BP plugin that handles third-party dependencies automatically.
@@ -28,12 +28,27 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "logging.hpp"
 
-class FReLogModule : public IModuleInterface
+#define RLOG_PLUGIN_TRACE(...) RLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
+#define RLOG_PLUGIN_DEBUG(...) RLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
+#define RLOG_PLUGIN_INFO(...) RLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)
+#define RLOG_PLUGIN_WARN(...) RLOG_LOGGER_WARN(logger_, ##__VA_ARGS__)
+#define RLOG_PLUGIN_ERROR(...) RLOG_LOGGER_ERROR(logger_, ##__VA_ARGS__)
+
+class DLLEXPORT FReLogModule : public IModuleInterface
 {
 public:
 
+    FReLogModule();
+    virtual ~FReLogModule();
+    
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+    
+protected:
+    std::shared_ptr<relog::helpers::logger> logger_;
+    
+    void initLogger(std::string loggerName);
 };

@@ -2,7 +2,7 @@
 // logging.hpp
 //
 //  Created by Peter Gusev on 27 January 2020.
-//  Copyright 2013-2019 Regents of the University of California
+//  Copyright 2013-2020 Regents of the University of California
 //
 
 #ifndef __logging_hpp__
@@ -14,6 +14,7 @@
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_WARN
 #endif
 
+#include "Core.h"
 #include <spdlog/spdlog.h>
 
 #define RLOG_TRACE SPDLOG_TRACE
@@ -38,10 +39,10 @@ namespace relog {
         typedef std::function<void(const std::string&, const log_level&)> LogCallback;
     }
 
-    void newLogger(std::string loggerName);
-    std::shared_ptr<helpers::logger> getLogger(std::string loggerName);
-    void flushLogger(std::string loggerName);
-    void registerCallback(std::shared_ptr<helpers::logger>, helpers::LogCallback);
+    DLLEXPORT void newLogger(std::string loggerName);
+    DLLEXPORT std::shared_ptr<helpers::logger> getLogger(std::string loggerName);
+    DLLEXPORT void flushLogger(std::string loggerName);
+    DLLEXPORT void registerCallback(std::shared_ptr<helpers::logger>, helpers::LogCallback);
 }
 
 #endif

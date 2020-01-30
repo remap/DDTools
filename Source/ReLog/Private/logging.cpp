@@ -2,7 +2,7 @@
 // logging.cpp
 //
 //  Created by Peter Gusev on 12 November 2019.
-//  Copyright 2013-2019 Regents of the University of California
+//  Copyright 2013-2020 Regents of the University of California
 //
 #include "logging.hpp"
 
@@ -89,6 +89,39 @@ using CallbackSinkMt = CallbackSink<mutex>;
 using CallbackSinkSt = CallbackSink<spdlog::details::null_mutex>;
 
 //******************************************************************************
+namespace relog
+{
+
+void newLogger(string loggerName)
+{
+    shared_ptr<spdlog::logger> logger;
+
+    if (logFile != "")
+        logger = spdlog::basic_logger_mt<spdlog::async_factory>(loggerName, logFile);
+    else
+        logger = spdlog::stdout_color_mt(loggerName);
+
+    initLogger(logger);
+}
+
+shared_ptr<spdlog::logger> getLogger(string loggerName)
+{
+    auto logger = spdlog::get(loggerName);
+    return logger;
+}
+
+void flushLogger(string loggerName)
+{
+    spdlog::get(loggerName)->flush();
+}
+
+void registerCallback(shared_ptr<helpers::logger> logger, helpers::LogCallback callback)
+{
+    logger->sinks().push_back(make_shared<CallbackSinkMt>(callback));
+}
+
+}
+
 string getDefaultLoggerName() {
    return TCHAR_TO_UTF8(*UKismetSystemLibrary::GetGameName());
 }
@@ -154,37 +187,4 @@ void initLogger(shared_ptr<helpers::logger> logger)
                 break;
         }
     });
-}
-
-namespace relog
-{
-
-void newLogger(string loggerName)
-{
-    shared_ptr<spdlog::logger> logger;
-
-    if (logFile != "")
-        logger = spdlog::basic_logger_mt<spdlog::async_factory>(loggerName, logFile);
-    else
-        logger = spdlog::stdout_color_mt(loggerName);
-
-    initLogger(logger);
-}
-
-shared_ptr<spdlog::logger> getLogger(string loggerName)
-{
-    auto logger = spdlog::get(loggerName);
-    return logger;
-}
-
-void flushLogger(string loggerName)
-{
-    spdlog::get(loggerName)->flush();
-}
-
-void registerCallback(shared_ptr<helpers::logger> logger, helpers::LogCallback callback)
-{
-    logger->sinks().push_back(make_shared<CallbackSinkMt>(callback));
-}
-
 }

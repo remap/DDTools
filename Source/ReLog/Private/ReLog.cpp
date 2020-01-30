@@ -7,18 +7,26 @@
 //
 
 #include "ReLog.h"
-#include "logging.hpp"
 
 #define LOCTEXT_NAMESPACE "FReLogModule"
 
+FReLogModule::FReLogModule() {}
+FReLogModule::~FReLogModule() {}
+
 void FReLogModule::StartupModule()
 {
-
+    
 }
 
 void FReLogModule::ShutdownModule()
 {
     
+}
+
+void FReLogModule::initLogger(std::string loggerName)
+{
+    newLogger(loggerName);
+    logger_ = getLogger(loggerName);
 }
 
 #undef LOCTEXT_NAMESPACE
