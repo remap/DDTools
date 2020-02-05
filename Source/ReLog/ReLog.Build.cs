@@ -56,7 +56,8 @@ public class ReLog : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
-            
+
+		bEnableExceptions = true;
         bUseRTTI = true;
 	}
 }
