@@ -10,29 +10,42 @@
 
 #ifdef UE_BUILD_DEBUG
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+DECLARE_LOG_CATEGORY_EXTERN(LogDd, VeryVerbose, All);
 #else
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_WARN
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
 #endif
 
 #include "Core.h"
+
+// disable exceptions for mobile platforms
+#if PLATFORM_ANDROID
+
+#define SPDLOG_NO_EXCEPTIONS
 #include <spdlog/spdlog.h>
 
-#define RLOG_TRACE SPDLOG_TRACE
-#define RLOG_DEBUG SPDLOG_DEBUG
-#define RLOG_INFO SPDLOG_INFO
-#define RLOG_WARN SPDLOG_WARN
-#define RLOG_ERROR SPDLOG_ERROR
+#else
 
-#define RLOG_LOGGER_TRACE SPDLOG_LOGGER_TRACE
-#define RLOG_LOGGER_DEBUG SPDLOG_LOGGER_DEBUG
-#define RLOG_LOGGER_INFO SPDLOG_LOGGER_INFO
-#define RLOG_LOGGER_WARN SPDLOG_LOGGER_WARN
-#define RLOG_LOGGER_ERROR SPDLOG_LOGGER_ERROR
-#define RLOG_LOGGER_CRITICAL SPDLOG_LOGGER_CRITICAL
+#include <spdlog/spdlog.h>
 
-#define RLOG_TRACE_TAG(tag, ...) (RLOG_TRACE(tag##__VA_ARGS__))
+#endif
 
-namespace relog {
+#define DLOG_TRACE SPDLOG_TRACE
+#define DLOG_DEBUG SPDLOG_DEBUG
+#define DLOG_INFO SPDLOG_INFO
+#define DLOG_WARN SPDLOG_WARN
+#define DLOG_ERROR SPDLOG_ERROR
+
+#define DLOG_LOGGER_TRACE SPDLOG_LOGGER_TRACE
+#define DLOG_LOGGER_DEBUG SPDLOG_LOGGER_DEBUG
+#define DLOG_LOGGER_INFO SPDLOG_LOGGER_INFO
+#define DLOG_LOGGER_WARN SPDLOG_LOGGER_WARN
+#define DLOG_LOGGER_ERROR SPDLOG_LOGGER_ERROR
+#define DLOG_LOGGER_CRITICAL SPDLOG_LOGGER_CRITICAL
+
+#define DLOG_TRACE_TAG(tag, ...) (DLOG_TRACE(tag##__VA_ARGS__))
+
+namespace ddlog {
     namespace helpers {
         typedef spdlog::logger logger;
         typedef spdlog::level::level_enum log_level;

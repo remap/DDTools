@@ -2,8 +2,8 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "ReLog",
-	"Description": "ReLog - \"Real Logging\" - a plugin that provides C++ interface for logging based on spdlog.",
+	"FriendlyName": "DDTools",
+	"Description": "DDTools - helpful tools from the Distressed Developer.",
 	"Category": "Other",
 	"CreatedBy": "Peter Gusev",
 	"CreatedByURL": "gusev.io",
@@ -15,7 +15,7 @@
 	"Installed": true,
 	"Modules": [
 		{
-			"Name": "ReLog",
+			"Name": "DDLog",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
@@ -23,12 +23,20 @@
 			]
 		},
 		{
-			"Name": "ReLogBP",
+			"Name": "DDBlueprints",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
 				"Mac"
 			]
-		}
+		},
+        {
+            "Name": "DDHelpers",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "WhitelistPlatforms": [
+                "Mac"
+            ]
+        }
 	]
 }

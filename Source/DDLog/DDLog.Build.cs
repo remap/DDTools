@@ -1,5 +1,5 @@
 //
-// ReLog.Build.cs
+// DDLog.Build.cs
 //
 //  Generated on January 27 2020
 //  Template created by Peter Gusev on 27 January 2020.
@@ -8,22 +8,20 @@
 
 using UnrealBuildTool;
 
-public class ReLog : ModuleRules
+public class DDLog : ModuleRules
 {
-	public ReLog(ReadOnlyTargetRules Target) : base(Target)
+	public DDLog(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicIncludePaths.AddRange(
 			new string[] {
-				// ... add public include paths required here ...
 			}
 			);
 
 
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				// ... add other private include paths required here ...
 			}
 			);
 
@@ -32,8 +30,9 @@ public class ReLog : ModuleRules
 			new string[]
 			{
 				"Core",
-                "depsReLog"
-				// ... add other public dependencies that you statically link with here ...
+				"UMG",
+				"DDHelpers",
+				"depsReLog"
 			}
 			);
 
@@ -44,8 +43,8 @@ public class ReLog : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore"
-				// ... add private dependencies that you statically link with here ...
+				"SlateCore",
+                "DDHelpers"
 			}
 			);
 
@@ -53,10 +52,9 @@ public class ReLog : ModuleRules
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
-				// ... add any modules that your module loads dynamically here ...
 			}
 			);
-            
-        bUseRTTI = true;
+
+		bEnableExceptions = true;
 	}
 }

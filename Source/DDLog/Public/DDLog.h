@@ -28,27 +28,42 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 #include "logging.hpp"
+#include "DDBase.h"
 
-#define RLOG_PLUGIN_TRACE(...) RLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_DEBUG(...) RLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_INFO(...) RLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_WARN(...) RLOG_LOGGER_WARN(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_ERROR(...) RLOG_LOGGER_ERROR(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_TRACE(...) DLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_DEBUG(...) DLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_INFO(...) DLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_WARN(...) DLOG_LOGGER_WARN(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_ERROR(...) DLOG_LOGGER_ERROR(logger_, ##__VA_ARGS__)
 
-class DLLEXPORT FReLogModule : public IModuleInterface
+class UDDModuleWidget;
+
+class DLLEXPORT FDDLogModule : public IModuleInterface, public IDDModuleInterface
 {
 public:
 
-    FReLogModule();
-    virtual ~FReLogModule();
-    
+    FDDLogModule();
+    virtual ~FDDLogModule();
+
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-    
+
+    virtual FString getModuleName() const override;
+    virtual FString getModuleVersion() const override;
+    virtual FString getBuildType() const override;
+    virtual FString getNetworkMode() const override;
+
 protected:
-    std::shared_ptr<relog::helpers::logger> logger_;
-    
+    std::string moduleName_, pluginVersion_;
+    std::shared_ptr<ddlog::helpers::logger> logger_;
+    UDDModuleWidget* infoPanel_;
+
+    void initModule(std::string moduleName, std::string pluginVersion);
     void initLogger(std::string loggerName);
+
+private:
+    void initWidgetPanel();
 };

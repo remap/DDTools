@@ -6,20 +6,20 @@
 //  Copyright 2013-2019 Regents of the University of California
 //
 
-#include "ReLogBp.h"
+#include "DDBlueprints.h"
 
-#define LOCTEXT_NAMESPACE "FReLogBpModule"
+#define LOCTEXT_NAMESPACE "FDDBlueprintsModule"
 
-void FReLogBpModule::StartupModule()
+void FDDBlueprintsModule::StartupModule()
 {
-    
+
 }
 
-void FReLogBpModule::ShutdownModule()
+void FDDBlueprintsModule::ShutdownModule()
 {
-    
+
 }
 
 #undef LOCTEXT_NAMESPACE
 
-IMPLEMENT_MODULE(FReLogBpModule, ReLogBp)
+IMPLEMENT_MODULE(FDDBlueprintsModule, DDBlueprints)
