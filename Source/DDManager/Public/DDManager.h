@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
@@ -32,6 +33,6 @@ public:
     virtual void ShutdownModule() override;
 
 private:
-
+    std::vector<IDDModuleInterface*> registeredModules_;
 };
 

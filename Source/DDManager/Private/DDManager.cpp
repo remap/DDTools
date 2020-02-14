@@ -26,7 +26,20 @@ IDDModuleManagerInterface* FDDModuleManager::getSharedInstance()
 
 void FDDModuleManager::registerModule(IDDModuleInterface *module)
 {
-    // TODO
+    if (module)
+    {
+        if (find(registeredModules_.begin(),registeredModules_.end(), module) == registeredModules_.end())
+        {
+            registeredModules_.push_back(module);
+            DLOG_DEBUG("Successfully registered module {}",
+                       TCHAR_TO_ANSI(*module->getModuleName()));
+        }
+        else
+            DLOG_WARN("Module {} is already registered",
+                      TCHAR_TO_ANSI(*module->getModuleName()));
+    }
+    else
+        DLOG_ERROR("Bad module provided: can't register NULL module");
 }
 
 void FDDModuleManager::StartupModule()
@@ -47,4 +60,4 @@ void FDDModuleManager::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 
-IMPLEMENT_MODULE(FDDModuleManager, DDModuleManager)
+IMPLEMENT_MODULE(FDDModuleManager, DDManager)

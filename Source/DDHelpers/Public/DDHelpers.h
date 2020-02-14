@@ -20,6 +20,7 @@ public:
     virtual FString getModuleVersion() const = 0;
     virtual FString getBuildType() const = 0;
     virtual FString getNetworkMode() const = 0;
+    virtual UObject* getWidgetBlueprint() const = 0;
 };
 
 class FDDHelpersModule : public IModuleInterface

@@ -86,6 +86,11 @@ FString FDDBaseModule::getNetworkMode() const
     return FString("TBD"); //NETMODE_WORLD);
 }
 
+UObject* FDDBaseModule::getWidgetBlueprint() const
+{
+    return infoPanelBp_;
+}
+
 void FDDBaseModule::initModule(string moduleName, string pluginVersion)
 {
     moduleName_ = moduleName;
@@ -113,44 +118,35 @@ void FDDBaseModule::initWidgetPanel()
 
     if (widgets.Num())
     {
-//        widgetOwner_ = NewObject<UDDWidgetOwner>();
-//        infoPanel_ = CreateWidget<UDDModuleWidget>(widgetOwner_, widgets[0].Get());
-
-        if (!infoPanel_)
-            DLOG_PLUGIN_WARN("Can't load default widget");
-        else
-        {
-            infoPanel_->setModule(this);
-
-            DLOG_PLUGIN_INFO("Loaded default widget panel");
-        }
+        infoPanelBp_ = widgets[0].Get();
     }
     else
     {
         DLOG_PLUGIN_WARN("No default widgets found");
-        infoPanel_ = nullptr;
+        infoPanelBp_ = nullptr;
     }
 }
 
 void FDDBaseModule::registerModule()
 {
-    FName ddModuleManagerName(TEXT("FDDModuleManager"));
+    FName ddModuleManagerName(TEXT("DDManager"));
     FModuleManager &manager = FModuleManager::Get();
     FModuleStatus ddManagerModuleStatus;
+    // force load DDManager module
+    IModuleInterface *moduleIface = manager.LoadModule(ddModuleManagerName);
     
     if (manager.QueryModule(ddModuleManagerName, ddManagerModuleStatus))
     {
-        bool isLoaded = false;
+        bool isLoaded = ddManagerModuleStatus.bIsLoaded;
         
-        if (!ddManagerModuleStatus.bIsLoaded)
-            isLoaded = (nullptr == manager.LoadModule(ddModuleManagerName));
+        if (!isLoaded)
+            isLoaded = (nullptr != manager.LoadModule(ddModuleManagerName));
             
         if (isLoaded)
         {
             IDDModuleManagerInterface *ddManager = FDDModuleManager::getSharedInstance();
             
             ddManager->registerModule(this);
-            DLOG_PLUGIN_INFO("Successfully registered module");
         }
         else
             DLOG_PLUGIN_ERROR("DD Module Manager could not be loaded. Module registration failed");

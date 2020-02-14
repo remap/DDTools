@@ -25,13 +25,14 @@ public:
     virtual FString getModuleVersion() const override;
     virtual FString getBuildType() const override;
     virtual FString getNetworkMode() const override;
+    virtual UObject* getWidgetBlueprint() const override;
 
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 
 protected:
     std::string moduleName_, pluginVersion_;
-    UDDModuleWidget* infoPanel_;
+    UObject* infoPanelBp_;
 
     void initModule(std::string moduleName, std::string pluginVersion);
 
