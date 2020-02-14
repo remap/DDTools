@@ -2,7 +2,11 @@
 
 
 #include "DDModuleWidget.h"
-#include "DDBase.h"
+
+#include <Engine/World.h>
+#include <GameFramework/PlayerController.h>
+#include <AssetRegistryModule.h>
+#include <Runtime/UMG/Public/Blueprint/UserWidget.h>
 
 FName
 UDDModuleWidget::getModuleName()

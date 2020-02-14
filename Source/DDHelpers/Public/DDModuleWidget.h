@@ -4,9 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "DDHelpers.h"
 #include "DDModuleWidget.generated.h"
-
-class IDDModuleInterface;
 
 /**
  *

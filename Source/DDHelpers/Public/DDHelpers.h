@@ -6,13 +6,24 @@
 //  Copyright 2020 Regents of the University of California
 //
 
-#ifndef __ddhelpers_h__
-#define __ddhelpers_h__
+#pragma once
 
 #include <stdio.h>
-
 #include "Object.h"
 #include "ScriptMacros.h"
+
+// common interface for DD modules
+class IDDModuleInterface
+{
+public:
+    virtual FString getModuleName() const = 0;
+    virtual FString getModuleVersion() const = 0;
+    virtual FString getBuildType() const = 0;
+    virtual FString getNetworkMode() const = 0;
+};
+
+// #ifndef __ddhelpers_h__
+// #define __ddhelpers_h__
 
 // adapted from https://github.com/kamrann/KantanCodeExamples/blob/master/Source/A1_GatherSubclasses/Runtime/A1_GatherSubclasses.h
 namespace ddhelpers
@@ -60,4 +71,4 @@ namespace ddhelpers
     }
 }
 
-#endif
+// #endif

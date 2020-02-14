@@ -1,5 +1,5 @@
 //
-// DDLog.Build.cs
+// DDHelpers.Build.cs
 //
 //  Generated on January 27 2020
 //  Template created by Peter Gusev on 27 January 2020.
@@ -8,9 +8,9 @@
 
 using UnrealBuildTool;
 
-public class DDLog : ModuleRules
+public class DDBase : ModuleRules
 {
-	public DDLog(ReadOnlyTargetRules Target) : base(Target)
+	public DDBase(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -31,7 +31,8 @@ public class DDLog : ModuleRules
 			{
 				"Core",
 				"UMG",
-				"depsReLog"
+				"DDLog",
+				"DDHelpers"
 			}
 			);
 
@@ -41,8 +42,10 @@ public class DDLog : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
+                "InputCore",
 				"Slate",
-				"SlateCore"
+				"SlateCore",
+                "UnrealEd"
 			}
 			);
 
@@ -52,7 +55,5 @@ public class DDLog : ModuleRules
 			{
 			}
 			);
-
-		bEnableExceptions = true;
 	}
 }
