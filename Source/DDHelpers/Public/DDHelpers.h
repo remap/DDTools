@@ -22,8 +22,9 @@ public:
     virtual FString getNetworkMode() const = 0;
 };
 
-// #ifndef __ddhelpers_h__
-// #define __ddhelpers_h__
+class FDDHelpersModule : public IModuleInterface
+{
+};
 
 // adapted from https://github.com/kamrann/KantanCodeExamples/blob/master/Source/A1_GatherSubclasses/Runtime/A1_GatherSubclasses.h
 namespace ddhelpers
@@ -58,17 +59,7 @@ namespace ddhelpers
 #endif
 
     //template < typename TBase >
-    void GetAllBlueprintSubclasses(TArray< TAssetSubclassOf< UObject > >& Subclasses,
+    void DLLEXPORT GetAllBlueprintSubclasses(TArray< TAssetSubclassOf< UObject > >& Subclasses,
                                    FName BaseClassName /*TSubclassOf< TBase > Base*/,
-                                   bool bAllowAbstract, FString const& Path)
-    {
-        TArray< TAssetSubclassOf< UObject > > Classes;
-        Detail::GetAllBlueprintSubclasses(Classes, BaseClassName, bAllowAbstract, Path);
-        for(auto const& Cls : Classes)
-        {
-            Subclasses.Add(Cls);
-        }
-    }
+                                   bool bAllowAbstract, FString const& Path);
 }
-
-// #endif

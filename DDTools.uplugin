@@ -37,6 +37,22 @@
             "WhitelistPlatforms": [
                 "Mac"
             ]
+        },
+        {
+            "Name": "DDBase",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "WhitelistPlatforms": [
+                "Mac"
+            ]
+        },
+        {
+            "Name": "DDManager",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "WhitelistPlatforms": [
+                "Mac"
+            ]
         }
 	]
 }

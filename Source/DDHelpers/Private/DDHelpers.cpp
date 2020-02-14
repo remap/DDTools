@@ -13,6 +13,8 @@
 #include <UObject/Class.h>
 #include <UObject/UObjectIterator.h>
 
+#define LOCTEXT_NAMESPACE "FDDHelpersModule"
+
 #if WITH_EDITOR
 #include "KismetEditorUtilities.h"
 #endif
@@ -208,4 +210,20 @@ namespace ddhelpers
             }
         }
     }
+
+    void GetAllBlueprintSubclasses(TArray< TAssetSubclassOf< UObject > >& Subclasses,
+                               FName BaseClassName /*TSubclassOf< TBase > Base*/,
+                               bool bAllowAbstract, FString const& Path)
+    {
+        TArray< TAssetSubclassOf< UObject > > Classes;
+        Detail::GetAllBlueprintSubclasses(Classes, BaseClassName, bAllowAbstract, Path);
+        for(auto const& Cls : Classes)
+        {
+            Subclasses.Add(Cls);
+        }
+    }
 }
+
+#undef LOCTEXT_NAMESPACE
+
+IMPLEMENT_MODULE(FDDHelpersModule, DDHelpers)

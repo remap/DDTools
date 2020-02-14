@@ -32,7 +32,8 @@ public class DDBase : ModuleRules
 				"Core",
 				"UMG",
 				"DDLog",
-				"DDHelpers"
+				"DDHelpers",
+                "DDManager"
 			}
 			);
 
@@ -44,8 +45,7 @@ public class DDBase : ModuleRules
 				"Engine",
                 "InputCore",
 				"Slate",
-				"SlateCore",
-                "UnrealEd"
+				"SlateCore"
 			}
 			);
 

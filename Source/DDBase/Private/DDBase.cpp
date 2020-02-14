@@ -7,6 +7,7 @@
 //
 
 #include "DDBase.h"
+#include "DDManager.h"
 
 #include <AssetRegistryModule.h>
 #include <ARFilter.h>
@@ -14,6 +15,7 @@
 #include <UObject/UObjectIterator.h>
 #include <Engine/World.h>
 #include <Runtime/UMG/Public/Blueprint/UserWidget.h>
+#include <Modules/ModuleManager.h>
 
 #if WITH_EDITOR
 #include "KismetEditorUtilities.h"
@@ -97,6 +99,7 @@ void FDDBaseModule::initModule(string moduleName, string pluginVersion)
                      TCHAR_TO_ANSI(*getNetworkMode()));
 
     initWidgetPanel();
+    registerModule();
 }
 
 void FDDBaseModule::initWidgetPanel()
@@ -127,6 +130,34 @@ void FDDBaseModule::initWidgetPanel()
         DLOG_PLUGIN_WARN("No default widgets found");
         infoPanel_ = nullptr;
     }
+}
+
+void FDDBaseModule::registerModule()
+{
+    FName ddModuleManagerName(TEXT("FDDModuleManager"));
+    FModuleManager &manager = FModuleManager::Get();
+    FModuleStatus ddManagerModuleStatus;
+    
+    if (manager.QueryModule(ddModuleManagerName, ddManagerModuleStatus))
+    {
+        bool isLoaded = false;
+        
+        if (!ddManagerModuleStatus.bIsLoaded)
+            isLoaded = (nullptr == manager.LoadModule(ddModuleManagerName));
+            
+        if (isLoaded)
+        {
+            IDDModuleManagerInterface *ddManager = FDDModuleManager::getSharedInstance();
+            
+            ddManager->registerModule(this);
+            DLOG_PLUGIN_INFO("Successfully registered module");
+        }
+        else
+            DLOG_PLUGIN_ERROR("DD Module Manager could not be loaded. Module registration failed");
+    }
+    else
+        DLOG_PLUGIN_ERROR("DD Module Manager could not be found. Module registration failed");
+    
 }
 
 //******************************************************************************

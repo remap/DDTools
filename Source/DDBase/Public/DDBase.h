@@ -6,8 +6,7 @@
 //  Copyright 2020 Regents of the University of California
 //
 
-#ifndef __ddhelpers_h__
-#define __ddhelpers_h__
+#pragma once
 
 #include <stdio.h>
 #include <string>
@@ -38,7 +37,5 @@ protected:
 
 private:
     void initWidgetPanel();
+    void registerModule();
 };
-
-
-#endif

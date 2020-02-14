@@ -171,7 +171,11 @@ string getDefaultLogFile()
 
     return "/data/data/"+string(cmdLine)+"/"+gameName+".log";
 #else
+#if WITH_EDITOR
+    return "/tmp/"+gameName+"-Editor.log";
+#else
     return "/tmp/"+gameName+".log";
+#endif
 #endif
 }
 

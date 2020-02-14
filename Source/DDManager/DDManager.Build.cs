@@ -8,9 +8,9 @@
 
 using UnrealBuildTool;
 
-public class DDHelpers : ModuleRules
+public class DDManager : ModuleRules
 {
-	public DDHelpers(ReadOnlyTargetRules Target) : base(Target)
+	public DDManager(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -30,7 +30,8 @@ public class DDHelpers : ModuleRules
 			new string[]
 			{
 				"Core",
-				"UMG"
+				"UMG",
+				"DDHelpers"
 			}
 			);
 
@@ -42,19 +43,10 @@ public class DDHelpers : ModuleRules
 				"Engine",
                 "InputCore",
 				"Slate",
-				"SlateCore"
+				"SlateCore",
+				"DDLog"
 			}
 			);
-            
-        if (Target.Type == TargetRules.TargetType.Editor)
-        {
-            PrivateDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "UnrealEd"
-            }
-            );
-        }
 
 
 		DynamicallyLoadedModuleNames.AddRange(
