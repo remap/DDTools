@@ -23,7 +23,7 @@ namespace ddhelpers
 {
     namespace Detail
     {
-#if 1
+#if 0
         void GetAllNativeSubclasses(TArray< TAssetSubclassOf< UObject > >& Subclasses, TSubclassOf< UObject > Base, bool bAllowAbstract)
         {
             check(Base);

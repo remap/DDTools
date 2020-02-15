@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "Object.h"
 #include "ScriptMacros.h"
+#include "Blueprint/UserWidget.h"
 
 // common interface for DD modules
 class IDDModuleInterface
@@ -20,7 +21,7 @@ public:
     virtual FString getModuleVersion() const = 0;
     virtual FString getBuildType() const = 0;
     virtual FString getNetworkMode() const = 0;
-    virtual UObject* getWidgetBlueprint() const = 0;
+    virtual TSubclassOf<UUserWidget> getWidgetBlueprint() const = 0;
 };
 
 class FDDHelpersModule : public IModuleInterface
@@ -32,7 +33,7 @@ namespace ddhelpers
 {
     namespace Detail
     {
-#if 1
+#if 0
     // causes link error
     //
     // Undefined symbols for architecture x86_64:
@@ -46,7 +47,7 @@ namespace ddhelpers
         DLLEXPORT void GetAllBlueprintSubclasses(TArray< TAssetSubclassOf< UObject > >& OutSubclasses, FName BaseClassName/*TSubclassOf< UObject > Base*/, bool bAllowAbstract, FString const& Path);
     }
 
-#if 1
+#if 0
     template < typename TBase >
     void GetAllNativeSubclasses(TArray< TAssetSubclassOf< TBase > >& Subclasses, TSubclassOf< TBase > Base, bool bAllowAbstract)
     {

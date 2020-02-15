@@ -86,7 +86,7 @@ FString FDDBaseModule::getNetworkMode() const
     return FString("TBD"); //NETMODE_WORLD);
 }
 
-UObject* FDDBaseModule::getWidgetBlueprint() const
+TSubclassOf<UUserWidget> FDDBaseModule::getWidgetBlueprint() const
 {
     return infoPanelBp_;
 }

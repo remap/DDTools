@@ -42,6 +42,11 @@ void FDDModuleManager::registerModule(IDDModuleInterface *module)
         DLOG_ERROR("Bad module provided: can't register NULL module");
 }
 
+const std::vector<IDDModuleInterface*>& FDDModuleManager::getRegisteredModules()
+{
+    return registeredModules_;
+}
+
 void FDDModuleManager::StartupModule()
 {
     DLOG_DEBUG("DD Module Manager Startup");
