@@ -42,7 +42,8 @@ public class DDHelpers : ModuleRules
 				"Engine",
                 "InputCore",
 				"Slate",
-				"SlateCore"
+				"SlateCore",
+                "DDLog"
 			}
 			);
             

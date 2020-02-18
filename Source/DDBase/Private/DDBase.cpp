@@ -119,6 +119,7 @@ void FDDBaseModule::initWidgetPanel()
     if (widgets.Num())
     {
         infoPanelBp_ = widgets[0].Get();
+        DLOG_PLUGIN_DEBUG("plugin panel {}", TCHAR_TO_ANSI(*widgets[0].GetAssetName()));
     }
     else
     {

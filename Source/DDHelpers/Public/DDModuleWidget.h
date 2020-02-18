@@ -17,6 +17,15 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DD Module Widget")
     FName getModuleName();
 
+    UFUNCTION(BlueprintCallable, Category = "DD Module Widget")
+    FName getModuleVersion();
+    
+    UFUNCTION(BlueprintCallable, Category = "DD Module Widget")
+    FName getBuildType();
+    
+    UFUNCTION(BlueprintCallable, Category = "DD Module Widget")
+    FName getModuleNetworkMode();
+    
     void setModule(IDDModuleInterface *module);
 
 protected:
