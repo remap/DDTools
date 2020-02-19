@@ -28,27 +28,30 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 #include "logging.hpp"
 
-#define RLOG_PLUGIN_TRACE(...) RLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_DEBUG(...) RLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_INFO(...) RLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_WARN(...) RLOG_LOGGER_WARN(logger_, ##__VA_ARGS__)
-#define RLOG_PLUGIN_ERROR(...) RLOG_LOGGER_ERROR(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_TRACE(...) DLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_DEBUG(...) DLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_INFO(...) DLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_WARN(...) DLOG_LOGGER_WARN(logger_, ##__VA_ARGS__)
+#define DLOG_PLUGIN_ERROR(...) DLOG_LOGGER_ERROR(logger_, ##__VA_ARGS__)
 
-class DLLEXPORT FReLogModule : public IModuleInterface
+class UDDModuleWidget;
+
+class DLLEXPORT FDDLogModule : public IModuleInterface
 {
 public:
 
-    FReLogModule();
-    virtual ~FReLogModule();
-    
+    FDDLogModule();
+    virtual ~FDDLogModule();
+
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-    
+
 protected:
-    std::shared_ptr<relog::helpers::logger> logger_;
-    
+    std::shared_ptr<ddlog::helpers::logger> logger_;
+
     void initLogger(std::string loggerName);
 };

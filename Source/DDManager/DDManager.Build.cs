@@ -1,28 +1,27 @@
 //
-// ReLogBP.Build.cs
+// DDHelpers.Build.cs
 //
+//  Generated on January 27 2020
 //  Template created by Peter Gusev on 27 January 2020.
 //  Copyright 2013-2019 Regents of the University of California
 //
 
 using UnrealBuildTool;
 
-public class ReLogBP : ModuleRules
+public class DDManager : ModuleRules
 {
-	public ReLogBP(ReadOnlyTargetRules Target) : base(Target)
+	public DDManager(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicIncludePaths.AddRange(
 			new string[] {
-				// ... add public include paths required here ...
 			}
 			);
 
 
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				// ... add other private include paths required here ...
 			}
 			);
 
@@ -30,8 +29,9 @@ public class ReLogBP : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core"
-				// ... add other public dependencies that you statically link with here ...
+				"Core",
+				"UMG",
+				"DDHelpers"
 			}
 			);
 
@@ -41,10 +41,10 @@ public class ReLogBP : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
+                "InputCore",
 				"Slate",
 				"SlateCore",
-                "ReLog"
-				// ... add private dependencies that you statically link with here ...
+				"DDLog"
 			}
 			);
 
@@ -52,7 +52,6 @@ public class ReLogBP : ModuleRules
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
-				// ... add any modules that your module loads dynamically here ...
 			}
 			);
 	}

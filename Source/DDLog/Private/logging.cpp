@@ -9,12 +9,20 @@
 #include <spdlog/async.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/rotating_file_sink.h>
 
-#include "Kismet/KismetSystemLibrary.h"
+#include <Kismet/KismetSystemLibrary.h>
+#include <EngineGlobals.h>
+#include <Runtime/Engine/Classes/Engine/Engine.h>
+
+#if PLATFORM_ANDROID
+#include <android/log.h>
+#endif
 
 using namespace std;
-using namespace relog;
+using namespace ddlog;
 
+DEFINE_LOG_CATEGORY(LogDd);
 #define DEFAULT_FORMAT "%E.%f [%12n] [%^%-8l%$] [thread %t] %!() : %v"
 
 // logging level
@@ -25,9 +33,9 @@ using namespace relog;
 // - "warn"
 // - "err"
 // - "critical"
-#define LOG_LEVEL_ENV "RELOG_LOG_LEVEL"
-#define LOG_FORMAT_ENV "RELOG_LOG_FMT"
-#define LOG_FILE_ENV "RELOG_LOG_FILE"
+#define LOG_LEVEL_ENV "DDLOG_LOG_LEVEL"
+#define LOG_FORMAT_ENV "DDLOG_LOG_FMT"
+#define LOG_FILE_ENV "DDLOG_LOG_FILE"
 
 shared_ptr<spdlog::logger> mainLogger;
 string logFile = "";
@@ -63,7 +71,7 @@ protected:
     {
         fmt::basic_memory_buffer<char, 250> formatted;
         spdlog::sinks::base_sink<Mutex>::formatter_->format(msg, formatted);
-        
+
         pair<helpers::log_level,string> p(msg.level, fmt::to_string(formatted));
         msgs_.push_back(p);
     }
@@ -89,19 +97,40 @@ using CallbackSinkMt = CallbackSink<mutex>;
 using CallbackSinkSt = CallbackSink<spdlog::details::null_mutex>;
 
 //******************************************************************************
-namespace relog
+namespace ddlog
 {
+
+shared_ptr<spdlog::logger> createFileLogger(string loggerName, string logFile)
+{
+#if PLATFORM_ANDROID
+    static vector<spdlog::sink_ptr> sinks;
+    static once_flag flag1;
+    call_once(flag1, [&](){
+        auto rotateFileSink = make_shared<spdlog::sinks::rotating_file_sink_mt>(logFile,
+                                                                                10*1024*1024, 3);
+        sinks.push_back(rotateFileSink);
+    });
+
+    auto logger = make_shared<spdlog::logger>(loggerName, sinks.begin(), sinks.end());
+    spdlog::register_logger(logger);
+    return logger;
+#else
+    return spdlog::basic_logger_mt<spdlog::async_factory>(loggerName, logFile);
+#endif
+}
 
 void newLogger(string loggerName)
 {
+    DLOG_TRACE("creating module logger {}", loggerName);
     shared_ptr<spdlog::logger> logger;
 
     if (logFile != "")
-        logger = spdlog::basic_logger_mt<spdlog::async_factory>(loggerName, logFile);
+        logger = createFileLogger(loggerName, logFile);
     else
         logger = spdlog::stdout_color_mt(loggerName);
 
     initLogger(logger);
+    DLOG_TRACE("logger {} created", loggerName);
 }
 
 shared_ptr<spdlog::logger> getLogger(string loggerName)
@@ -130,7 +159,24 @@ string getDefaultLogFile()
 {
     string gameName(TCHAR_TO_UTF8(*UKismetSystemLibrary::GetGameName()));
     // TODO: make this platform-specific
+#if PLATFORM_ANDROID
+    char cmdLine[512];
+    FILE *f = fopen("/proc/self/cmdline", "r");
+    if (f)
+    {
+        size_t c = fread(cmdLine, 512, 1, f);
+    }
+    else
+        UE_LOG(LogTemp, Log, TEXT("FAILED TO READ /proc/self/cmdline"));
+
+    return "/data/data/"+string(cmdLine)+"/"+gameName+".log";
+#else
+#if WITH_EDITOR
+    return "/tmp/"+gameName+"-Editor.log";
+#else
     return "/tmp/"+gameName+".log";
+#endif
+#endif
 }
 
 void initMainLogger()
@@ -139,7 +185,7 @@ void initMainLogger()
     logFile = getenv(LOG_FILE_ENV) ? string(getenv(LOG_FILE_ENV)) : getDefaultLogFile();
 
     if (logFile != "")
-        mainLogger = spdlog::basic_logger_mt<spdlog::async_factory>(getDefaultLoggerName(), logFile);
+        mainLogger = createFileLogger(getDefaultLoggerName(), logFile);
     else
         mainLogger = spdlog::stdout_color_mt(getDefaultLoggerName());
 
@@ -165,26 +211,81 @@ void initLogger(shared_ptr<helpers::logger> logger)
     logger->info("Initialized logger {}: level {} file {}",  logger->name(),
         spdlog::level::to_short_c_str(logger->level()), logFile);
     logger->flush();
-    
+
+#if 0
     // register UE_LOG sink by default
     registerCallback(logger, [](const string& msg, const helpers::log_level& lvl){
+        FString fMsg(msg.c_str());
+
         switch (lvl) {
             case helpers::log_level::warn:
-                UE_LOG(LogTemp, Warning, TEXT("%s"), msg.c_str());
+                UE_LOG(LogShell, Warning, TEXT("DDLog: %s"), *fMsg);
                 break;
             case helpers::log_level::err:
-                UE_LOG(LogTemp, Error, TEXT("%s"), msg.c_str());
+                UE_LOG(LogShell, Error, TEXT("DDLog: %s"), *fMsg);
                 break;
             case helpers::log_level::info:
-                UE_LOG(LogTemp, Display, TEXT("%s"), msg.c_str());
+                UE_LOG(LogShell, Display, TEXT("DDLog: %s"), *fMsg);
                 break;
             case helpers::log_level::debug:
-                UE_LOG(LogTemp, Log, TEXT("%s"), msg.c_str());
+                UE_LOG(LogShell, Log, TEXT("DDLog: %s"), *fMsg);
                 break;
             case helpers::log_level::trace: // fall through
             default:
-                UE_LOG(LogTemp, Verbose, TEXT("%s"), msg.c_str());
+                UE_LOG(LogShell, Verbose, TEXT("DDLog: %s"), *fMsg);
                 break;
         }
     });
+#endif
+
+    // register onscreen rendering sink
+    registerCallback(logger, [logger](const string& msg, const helpers::log_level& lvl){
+
+        if (!GEngine) return;
+
+        FString fMsg(msg.c_str());
+
+        switch (lvl) {
+            case helpers::log_level::warn:
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, fMsg);
+                break;
+            case helpers::log_level::err:
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, fMsg);
+                break;
+            case helpers::log_level::info:
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, fMsg);
+                break;
+            case helpers::log_level::debug:
+                GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, fMsg);
+                break;
+            case helpers::log_level::trace: // fall through
+            default:
+                GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Cyan, fMsg);
+                break;
+        }
+    });
+
+#if PLATFORM_ANDROID
+    // register android log sink
+    registerCallback(logger, [logger](const string& msg, const helpers::log_level& lvl){
+        switch (lvl) {
+            case helpers::log_level::warn:
+                __android_log_print(ANDROID_LOG_WARN, logger->name().c_str(), "%s", msg.c_str());
+                break;
+            case helpers::log_level::err:
+                __android_log_print(ANDROID_LOG_ERROR, logger->name().c_str(), "%s", msg.c_str());
+                break;
+            case helpers::log_level::info:
+                __android_log_print(ANDROID_LOG_INFO, logger->name().c_str(), "%s", msg.c_str());
+                break;
+            case helpers::log_level::debug:
+                __android_log_print(ANDROID_LOG_DEBUG, logger->name().c_str(), "%s", msg.c_str());
+                break;
+            case helpers::log_level::trace: // fall through
+            default:
+                __android_log_print(ANDROID_LOG_VERBOSE, logger->name().c_str(), "%s", msg.c_str());
+                break;
+        }
+    });
+#endif
 }
