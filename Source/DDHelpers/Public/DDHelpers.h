@@ -22,6 +22,8 @@ public:
     virtual FString getBuildType() const = 0;
     virtual FString getNetworkMode() const = 0;
     virtual TSubclassOf<UUserWidget> getWidgetBlueprint() const = 0;
+    virtual void onPostWorldCreation(class UWorld* world) = 0;
+    virtual void onPostWorldInitialization(class UWorld* world) = 0;
 };
 
 class FDDHelpersModule : public IModuleInterface

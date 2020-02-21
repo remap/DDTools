@@ -24,6 +24,32 @@ IDDModuleManagerInterface* FDDModuleManager::getSharedInstance()
     return SingletonInstance;
 }
 
+void FDDModuleManager::onPostWorldCreation(UWorld *world)
+{
+    if (world)
+    {
+        DLOG_TRACE("map name: {}",
+                         TCHAR_TO_ANSI(*world->GetMapName()));
+        
+        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldCreation(world);
+    }
+    else
+        DLOG_ERROR("the world is null");
+}
+
+void FDDModuleManager::onPostWorldInitialization(UWorld *world, UWorld::InitializationValues iValues)
+{
+    if (world)
+    {
+        DLOG_TRACE("map name: {}",
+                         TCHAR_TO_ANSI(*world->GetMapName()));
+        
+        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldInitialization(world);
+    }
+    else
+        DLOG_ERROR("the world is null");
+}
+
 void FDDModuleManager::registerModule(IDDModuleInterface *module)
 {
     if (module)
@@ -53,6 +79,9 @@ void FDDModuleManager::StartupModule()
 
     checkf(!SingletonInstance, TEXT("DD Module Manager singleton is already initialized"));
     SingletonInstance = this;
+    
+    FWorldDelegates::OnPostWorldCreation.AddStatic( &FDDModuleManager::onPostWorldCreation);
+    FWorldDelegates::OnPostWorldInitialization.AddStatic(&onPostWorldInitialization);
 }
 
 void FDDModuleManager::ShutdownModule()
@@ -60,6 +89,21 @@ void FDDModuleManager::ShutdownModule()
     DLOG_DEBUG("DD Module Manager Shutdown");
 }
 
+void FDDModuleManager::notifyPostWorldCreation(UWorld *world)
+{
+    DLOG_DEBUG("notify {} modules", registeredModules_.size());
+    
+    for (auto ddModule : registeredModules_)
+        ddModule->onPostWorldCreation(world);
+}
+
+void FDDModuleManager::notifyPostWorldInitialization(UWorld *world)
+{
+    DLOG_DEBUG("notify {} modules", registeredModules_.size());
+    
+    for (auto ddModule : registeredModules_)
+        ddModule->onPostWorldInitialization(world);
+}
 
 //******************************************************************************
 

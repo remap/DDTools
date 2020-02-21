@@ -12,8 +12,9 @@
 #include <string>
 #include <vector>
 
-#include "CoreMinimal.h"
-#include "Modules/ModuleManager.h"
+#include <CoreMinimal.h>
+#include <Modules/ModuleManager.h>
+#include <Engine/World.h>
 
 #include "DDHelpers.h"
 
@@ -34,6 +35,14 @@ public:
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 
+protected:
+    static void onPostWorldCreation(class UWorld *world);
+    static void onPostWorldInitialization(class UWorld *world,
+                                          UWorld::InitializationValues iValues);
+    
+    void notifyPostWorldCreation(class UWorld *world);
+    void notifyPostWorldInitialization(class UWorld *world);
+    
 private:
     std::vector<IDDModuleInterface*> registeredModules_;
 };

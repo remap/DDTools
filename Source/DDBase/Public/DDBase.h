@@ -35,6 +35,9 @@ protected:
     TSubclassOf<UUserWidget> infoPanelBp_;
 
     void initModule(std::string moduleName, std::string pluginVersion);
+    
+    virtual void onPostWorldCreation(class UWorld* world) override;
+    virtual void onPostWorldInitialization(class UWorld* world) override;
 
 private:
     void initWidgetPanel();
