@@ -7,6 +7,8 @@
 //
 
 #include "DDHelpers.h"
+#include "DDLog.h"
+#include "DDModuleWidget.h"
 
 #include <AssetRegistryModule.h>
 #include <ARFilter.h>
@@ -102,7 +104,7 @@ namespace Detail
         ContentPaths.Add(TEXT("/Game"));
         if (!Path.IsEmpty())
         {
-            //                DLOG_INFO("Add search in {}", TCHAR_TO_ANSI(*Path));
+//            DLOG_TRACE("Add search in {}", TCHAR_TO_ANSI(*Path));
             ContentPaths.Add(Path);
         }
         
@@ -115,16 +117,16 @@ namespace Detail
         {
             TArray< FName > BaseNames;
             BaseNames.Add(BaseClassName);
-            //                DLOG_INFO("searching for classes derived from {}",
-            //                          TCHAR_TO_ANSI(*BaseClassName.ToString()));
+//            DLOG_TRACE("searching for classes derived from {}",
+//                       TCHAR_TO_ANSI(*BaseClassName.ToString()));
             
             TSet< FName > Excluded;
             AssetRegistry.GetDerivedClassNames(BaseNames, Excluded, DerivedNames);
         }
         
-        //            DLOG_INFO("derived class names num {}", DerivedNames.Num());
-        //            for (auto n : DerivedNames)
-        //                DLOG_INFO("DERIVED NAME {}", TCHAR_TO_ANSI(*n.ToString()));
+//        DLOG_TRACE("derived class names num {}", DerivedNames.Num());
+//        for (auto n : DerivedNames)
+//            DLOG_TRACE("DERIVED NAME {}", TCHAR_TO_ANSI(*n.ToString()));
         
         // Set up a filter and then pull asset data for all blueprints in the specified path from the asset registry.
         // Note that this works in packaged builds too. Even though the blueprint itself cannot be loaded, its asset data
@@ -132,12 +134,10 @@ namespace Detail
         
         FARFilter Filter;
         Filter.ClassNames.Add(FName("WidgetBlueprint"));
-        Filter.ClassNames.Add(BaseClassName);
         
-        //            for (auto cn : Filter.ClassNames)
-        //                DLOG_INFO(" -- filter ClassName {}", TCHAR_TO_ANSI(*cn.ToString()));
+//        for (auto cn : Filter.ClassNames)
+//            DLOG_TRACE(" -- filter ClassName {}", TCHAR_TO_ANSI(*cn.ToString()));
         
-        //UBlueprint::StaticClass()->GetFName());
         Filter.bRecursiveClasses = true;
         if(!Path.IsEmpty())
         {
@@ -148,30 +148,19 @@ namespace Detail
         TArray< FAssetData > AssetList;
         AssetRegistry.GetAssets(Filter, AssetList);
         
-        //            DLOG_INFO("loaded AssetList, n items {}", AssetList.Num());
+//        DLOG_TRACE("loaded AssetList, n items {}", AssetList.Num());
         
         // Iterate over retrieved blueprint assets
         for(auto const& Asset : AssetList)
         {
-            //                DLOG_INFO("item {}",
-            //                          TCHAR_TO_ANSI(*Asset.AssetName.ToString()));
-            
-            //                TArray<FName> tagKeys;
-            //                TArray<FName> tagValues;
-            //                Asset.TagsAndValues.GenerateKeyArray(tagKeys);
-            //                Asset.TagsAndValues.GenerateValueArray(tagValues);
-            
-            //                DLOG_INFO("item tag keys");
-            //                for (auto tagKey : tagKeys)
-            //                    DLOG_INFO("{}", TCHAR_TO_ANSI(*tagKey.ToString()));
-            //                DLOG_INFO("item tag values");
-            //                for (auto tagValue : tagValues)
-            //                    DLOG_INFO("{}", TCHAR_TO_ANSI(*tagValue.ToString()));
+//            DLOG_TRACE("item {} class name {}",
+//                       TCHAR_TO_ANSI(*Asset.AssetName.ToString()),
+//                       TCHAR_TO_ANSI(*Asset.AssetClass.ToString()));
             
             // Get the the class this blueprint generates (this is stored as a full path)
             auto findResult = Asset.TagsAndValues.FindTag(GeneratedClassTag);
             
-            //                DLOG_INFO("find result isSet {}", findResult.IsSet());
+//            DLOG_TRACE("find result isSet {}", findResult.IsSet());
             
             if(findResult.IsSet())
             {
@@ -196,15 +185,15 @@ namespace Detail
                 const FString ClassObjectPath = FPackageName::ExportTextPathToObjectPath(*GeneratedClassPathPtr);
                 const FString ClassName = FPackageName::ObjectPathToObjectName(ClassObjectPath);
                 
-                //                    DLOG_INFO("OBJECT PATH {} CLASS NAME {}",
-                //                              TCHAR_TO_ANSI(*ClassObjectPath),
-                //                              TCHAR_TO_ANSI(*ClassName));
+//                DLOG_TRACE("OBJECT PATH {} CLASS NAME {}",
+//                           TCHAR_TO_ANSI(*ClassObjectPath),
+//                           TCHAR_TO_ANSI(*ClassName));
                 
                 // Check if this class is in the derived set
-                //                    if(!DerivedNames.Contains(*ClassName))
-                //                    {
-                //                        continue;
-                //                    }
+                if(!DerivedNames.Contains(*ClassName))
+                {
+                    continue;
+                }
                 
                 // Store using the path to the generated class
                 Subclasses.Add(TAssetSubclassOf< UObject >(FStringAssetReference(ClassObjectPath)));
