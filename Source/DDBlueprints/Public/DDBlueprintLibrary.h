@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DDHelpers.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "DDBlueprintLibrary.generated.h"
 

@@ -30,7 +30,8 @@ public class DDBlueprints : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core"
+				"Core",
+                "DDHelpers"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -43,7 +44,8 @@ public class DDBlueprints : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "DDLog"
+                "DDLog",
+                "DDManager"
 				// ... add private dependencies that you statically link with here ...
 			}
 			);

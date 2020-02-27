@@ -73,6 +73,17 @@ const std::vector<IDDModuleInterface*>& FDDModuleManager::getRegisteredModules()
     return registeredModules_;
 }
 
+IDDModuleInterface* FDDModuleManager::getModule(FString moduleName)
+{
+    for (auto ddModule : registeredModules_)
+    {
+        if (ddModule->getModuleName().Equals(moduleName))
+            return ddModule;
+    }
+    
+    return nullptr;
+}
+
 void FDDModuleManager::StartupModule()
 {
     DLOG_DEBUG("DD Module Manager Startup");

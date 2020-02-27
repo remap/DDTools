@@ -2,7 +2,8 @@
 
 
 #include "DDBlueprintLibrary.h"
-#include "logging.hpp"
+#include "DDLog.h"
+#include "DDManager.h"
 
 using namespace std;
 

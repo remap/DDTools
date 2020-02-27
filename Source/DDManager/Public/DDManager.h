@@ -22,6 +22,7 @@ class IDDModuleManagerInterface {
 public:
     virtual void registerModule(IDDModuleInterface* module) = 0;
     virtual const std::vector<IDDModuleInterface*>& getRegisteredModules() = 0;
+    virtual IDDModuleInterface *getModule(FString moduleName) = 0;
 };
 
 class DLLEXPORT FDDModuleManager : public IModuleInterface, public IDDModuleManagerInterface
@@ -31,6 +32,7 @@ public:
 
     void registerModule(IDDModuleInterface *module) override;
     const std::vector<IDDModuleInterface*>& getRegisteredModules() override;
+    IDDModuleInterface *getModule(FString moduleName) override;
 
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
