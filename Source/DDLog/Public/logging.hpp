@@ -19,7 +19,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
 #include "Core.h"
 
 // disable exceptions for mobile platforms
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID || PLATFORM_IOS
 
 #define SPDLOG_NO_EXCEPTIONS
 #include <spdlog/spdlog.h>
