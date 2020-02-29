@@ -14,9 +14,15 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include <EngineGlobals.h>
 #include <Runtime/Engine/Classes/Engine/Engine.h>
+#include <Misc/Paths.h>
 
 #if PLATFORM_ANDROID
 #include <android/log.h>
+#endif
+
+#if PLATFORM_IOS
+#include "IOSAppDelegate.h"
+#import <UIKit/UIKit.h>
 #endif
 
 using namespace std;
@@ -102,7 +108,7 @@ namespace ddlog
 
 shared_ptr<spdlog::logger> createFileLogger(string loggerName, string logFile)
 {
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID || PLATFORM_IOS
     static vector<spdlog::sink_ptr> sinks;
     static once_flag flag1;
     call_once(flag1, [&](){
@@ -170,12 +176,20 @@ string getDefaultLogFile()
         UE_LOG(LogTemp, Log, TEXT("FAILED TO READ /proc/self/cmdline"));
 
     return "/data/data/"+string(cmdLine)+"/"+gameName+".log";
+#elif PLATFORM_IOS
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    return string([documentsDirectory UTF8String])+"/"+gameName+".log";
+#elif PLATFORM_WINDOWS
+    FString path = FPaths::ProjectUserDir();
+    return string(TCHAR_TO_ANSI(*path));
 #else
-#if WITH_EDITOR
-    return "/tmp/"+gameName+"-Editor.log";
-#else
-    return "/tmp/"+gameName+".log";
-#endif
+    #if WITH_EDITOR
+        return "/tmp/"+gameName+"-Editor.log";
+    #else
+        return "/tmp/"+gameName+".log";
+    #endif
 #endif
 }
 
@@ -183,6 +197,8 @@ void initMainLogger()
 {
     logLevel = getenv(LOG_LEVEL_ENV) ? string(getenv(LOG_LEVEL_ENV)) : "";
     logFile = getenv(LOG_FILE_ENV) ? string(getenv(LOG_FILE_ENV)) : getDefaultLogFile();
+    
+    UE_LOG(LogTemp, Log, TEXT("LOG FILE {}"), ANSI_TO_TCHAR(logFile.c_str()));
 
     if (logFile != "")
         mainLogger = createFileLogger(getDefaultLoggerName(), logFile);
