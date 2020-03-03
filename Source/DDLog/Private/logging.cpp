@@ -183,7 +183,11 @@ string getDefaultLogFile()
     return string([documentsDirectory UTF8String])+"/"+gameName+".log";
 #elif PLATFORM_WINDOWS
     FString path = FPaths::ProjectUserDir();
-    return string(TCHAR_TO_ANSI(*path));
+    #if WITH_EDITOR
+        return string(TCHAR_TO_ANSI(*path)) + "/" + gameName + "-Editor.log";
+    #else
+        return string(TCHAR_TO_ANSI(*path)) + "/" + gameName + ".log";
+    #endif
 #else
     #if WITH_EDITOR
         return "/tmp/"+gameName+"-Editor.log";
