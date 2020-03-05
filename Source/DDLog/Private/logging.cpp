@@ -127,7 +127,7 @@ shared_ptr<spdlog::logger> createFileLogger(string loggerName, string logFile)
 
 void newLogger(string loggerName)
 {
-    DLOG_TRACE("creating module logger {}", loggerName);
+//    DLOG_TRACE("creating module logger {}", loggerName);
     shared_ptr<spdlog::logger> logger;
 
     if (logFile != "")
@@ -136,7 +136,7 @@ void newLogger(string loggerName)
         logger = spdlog::stdout_color_mt(loggerName);
 
     initLogger(logger);
-    DLOG_TRACE("logger {} created", loggerName);
+//    DLOG_TRACE("logger {} created", loggerName);
 }
 
 shared_ptr<spdlog::logger> getLogger(string loggerName)

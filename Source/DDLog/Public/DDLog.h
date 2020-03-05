@@ -31,6 +31,12 @@
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 #include "logging.hpp"
 
+#define DLOG_MODULE_TRACE(mname, ...) DLOG_LOGGER_TRACE(ddlog::getLogger(#mname), ##__VA_ARGS__)
+#define DLOG_MODULE_DEBUG(mname, ...) DLOG_LOGGER_DEBUG(ddlog::getLogger(#mname), ##__VA_ARGS__)
+#define DLOG_MODULE_INFO(mname, ...) DLOG_LOGGER_INFO(ddlog::getLogger(#mname), ##__VA_ARGS__)
+#define DLOG_MODULE_WARN(mname, ...) DLOG_LOGGER_WARN(ddlog::getLogger(#mname), ##__VA_ARGS__)
+#define DLOG_MODULE_ERROR(mname, ...) DLOG_LOGGER_ERROR(ddlog::getLogger(#mname), ##__VA_ARGS__)
+
 #define DLOG_PLUGIN_TRACE(...) DLOG_LOGGER_TRACE(logger_, ##__VA_ARGS__)
 #define DLOG_PLUGIN_DEBUG(...) DLOG_LOGGER_DEBUG(logger_, ##__VA_ARGS__)
 #define DLOG_PLUGIN_INFO(...) DLOG_LOGGER_INFO(logger_, ##__VA_ARGS__)

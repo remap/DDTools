@@ -28,8 +28,7 @@ void FDDModuleManager::onPostWorldCreation(UWorld *world)
 {
     if (world)
     {
-        DLOG_TRACE("map name: {}",
-                         TCHAR_TO_ANSI(*world->GetMapName()));
+//        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
         
         ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldCreation(world);
     }
@@ -41,8 +40,7 @@ void FDDModuleManager::onPostWorldInitialization(UWorld *world, UWorld::Initiali
 {
     if (world)
     {
-        DLOG_TRACE("map name: {}",
-                         TCHAR_TO_ANSI(*world->GetMapName()));
+//        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
         
         ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldInitialization(world);
     }
@@ -86,7 +84,7 @@ IDDModuleInterface* FDDModuleManager::getModule(FString moduleName)
 
 void FDDModuleManager::StartupModule()
 {
-    DLOG_DEBUG("DD Module Manager Startup");
+//    DLOG_DEBUG("DD Module Manager Startup");
 
     checkf(!SingletonInstance, TEXT("DD Module Manager singleton is already initialized"));
     SingletonInstance = this;
@@ -102,7 +100,7 @@ void FDDModuleManager::ShutdownModule()
 
 void FDDModuleManager::notifyPostWorldCreation(UWorld *world)
 {
-    DLOG_DEBUG("notify {} modules", registeredModules_.size());
+    //DLOG_DEBUG("notify {} modules", registeredModules_.size());
     
     for (auto ddModule : registeredModules_)
         ddModule->onPostWorldCreation(world);
@@ -110,7 +108,7 @@ void FDDModuleManager::notifyPostWorldCreation(UWorld *world)
 
 void FDDModuleManager::notifyPostWorldInitialization(UWorld *world)
 {
-    DLOG_DEBUG("notify {} modules", registeredModules_.size());
+    //DLOG_DEBUG("notify {} modules", registeredModules_.size());
     
     for (auto ddModule : registeredModules_)
         ddModule->onPostWorldInitialization(world);
