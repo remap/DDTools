@@ -11,6 +11,28 @@
 
 #include <AssetRegistryModule.h>
 
+#define BUILD_TYPE_FULL(BuildType)(BuildType "")
+#define BUILD_TYPE "Unknown"
+
+#if WITH_EDITOR
+    #undef BUILD_TYPE_FULL
+    #define BUILD_TYPE_FULL(BuildType)(BuildType " Editor")
+#endif
+
+#if UE_BUILD_DEBUG
+    #undef BUILD_TYPE
+    #define BUILD_TYPE "Debug"
+#elif UE_BUILD_DEVELOPMENT
+    #undef BUILD_TYPE
+    #define BUILD_TYPE "Development"
+#elif UE_BUILD_TEST
+    #undef BUILD_TYPE
+    #define BUILD_TYPE "Test"
+#elif UE_BUILD_SHIPPING
+    #undef BUILD_TYPE
+    #define BUILD_TYPE "Shipping"
+#endif
+
 #define LOCTEXT_NAMESPACE "FDDModuleManager"
 
 using namespace std;
@@ -29,7 +51,7 @@ void FDDModuleManager::onPostWorldCreation(UWorld *world)
     if (world)
     {
 //        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
-        
+        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
         ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldCreation(world);
     }
     else
@@ -41,7 +63,7 @@ void FDDModuleManager::onPostWorldInitialization(UWorld *world, UWorld::Initiali
     if (world)
     {
 //        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
-        
+//        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
         ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldInitialization(world);
     }
     else
@@ -80,6 +102,11 @@ IDDModuleInterface* FDDModuleManager::getModule(FString moduleName)
     }
     
     return nullptr;
+}
+
+FString FDDModuleManager::getBuildType() const
+{
+    return FString(BUILD_TYPE_FULL(BUILD_TYPE));
 }
 
 void FDDModuleManager::StartupModule()
