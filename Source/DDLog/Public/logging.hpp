@@ -53,6 +53,7 @@ namespace ddlog {
     }
 
     DLLEXPORT void newLogger(std::string loggerName);
+    DLLEXPORT std::shared_ptr<helpers::logger> getMainLogger();
     DLLEXPORT std::shared_ptr<helpers::logger> getLogger(std::string loggerName);
     DLLEXPORT void flushLogger(std::string loggerName);
     DLLEXPORT void registerCallback(std::shared_ptr<helpers::logger>, helpers::LogCallback);

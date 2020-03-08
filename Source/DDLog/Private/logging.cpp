@@ -50,6 +50,7 @@ once_flag onceFlag;
 
 void initMainLogger();
 void initLogger(shared_ptr<helpers::logger>);
+string getDefaultLoggerName();
 
 // init logging upon library loading
 struct _LibInitializer {
@@ -139,6 +140,11 @@ void newLogger(string loggerName)
 //    DLOG_TRACE("logger {} created", loggerName);
 }
 
+shared_ptr<spdlog::logger> getMainLogger()
+{
+    return spdlog::get(getDefaultLoggerName());
+}
+
 shared_ptr<spdlog::logger> getLogger(string loggerName)
 {
     auto logger = spdlog::get(loggerName);
@@ -201,8 +207,6 @@ void initMainLogger()
 {
     logLevel = getenv(LOG_LEVEL_ENV) ? string(getenv(LOG_LEVEL_ENV)) : "";
     logFile = getenv(LOG_FILE_ENV) ? string(getenv(LOG_FILE_ENV)) : getDefaultLogFile();
-    
-    UE_LOG(LogTemp, Log, TEXT("LOG FILE {}"), ANSI_TO_TCHAR(logFile.c_str()));
 
     if (logFile != "")
         mainLogger = createFileLogger(getDefaultLoggerName(), logFile);
