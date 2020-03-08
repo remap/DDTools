@@ -36,3 +36,68 @@ void UDDBlueprintLibrary::LogTrace(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_TRACE(text);
 }
+
+FString UDDBlueprintLibrary::getGameNetMode()
+{
+    UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
+    
+    if (world)
+    {
+        ENetMode mode = world->GetNetMode();
+        
+        switch (mode) {
+            case NM_Standalone:
+                return FString("NM_Standalone");
+            case NM_DedicatedServer:
+                return FString("NM_DedicatedServer");
+            case NM_ListenServer:
+                return FString("NM_ListenServer");
+            case NM_Client:
+                return FString("NM_Client");
+            default:
+                break;
+                
+        }
+    }
+    
+    return FString("Unknown");
+}
+
+FString UDDBlueprintLibrary::getBuildType()
+{
+    return FDDModuleManager::getSharedInstance()->getBuildType();
+}
+
+FString UDDBlueprintLibrary::getLoggingLevel()
+{
+    return FString(spdlog::level::to_short_c_str(ddlog::getMainLogger()->level()));
+}
+
+FString UDDBlueprintLibrary::getServerIp()
+{
+    UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
+     
+     if (world)
+     {
+         ENetMode mode = world->GetNetMode();
+         
+         switch (mode) {
+             case NM_Standalone:
+                 return FString();
+             default:
+                 return world->URL.Host;
+         }
+     }
+    
+    return FString();
+}
+
+int UDDBlueprintLibrary::getServerPort()
+{
+    UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
+     
+     if (world)
+         return world ->URL.Port;
+    
+    return 0;
+}
