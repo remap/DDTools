@@ -19,7 +19,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
-				"Mac"
+				"Mac",
+                "Win64"
 			]
 		},
 		{
@@ -27,7 +28,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
-				"Mac"
+				"Mac",
+                "Win64"
 			]
 		},
         {
@@ -35,7 +37,8 @@
             "Type": "Runtime",
             "LoadingPhase": "Default",
             "WhitelistPlatforms": [
-                "Mac"
+                "Mac",
+                "Win64"
             ]
         },
         {
@@ -43,7 +46,8 @@
             "Type": "Runtime",
             "LoadingPhase": "Default",
             "WhitelistPlatforms": [
-                "Mac"
+                "Mac",
+                "Win64"
             ]
         },
         {
@@ -51,7 +55,8 @@
             "Type": "Runtime",
             "LoadingPhase": "Default",
             "WhitelistPlatforms": [
-                "Mac"
+                "Mac",
+                "Win64"
             ]
         }
 	]

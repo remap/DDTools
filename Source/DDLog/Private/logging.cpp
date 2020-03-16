@@ -188,7 +188,9 @@ string getDefaultLogFile()
     
     return string([documentsDirectory UTF8String])+"/"+gameName+".log";
 #elif PLATFORM_WINDOWS
-    FString path = FPaths::ProjectUserDir();
+    // temporary fix for windows.
+    // check back here for possible fix https://udn.unrealengine.com/questions/563432/view.html
+    FString path = FString("."); //FPaths::ProjectUserDir();
     #if WITH_EDITOR
         return string(TCHAR_TO_ANSI(*path)) + "/" + gameName + "-Editor.log";
     #else
