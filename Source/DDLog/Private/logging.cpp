@@ -282,7 +282,7 @@ void initLogger(shared_ptr<helpers::logger> logger)
                 GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, fMsg);
                 break;
             case helpers::log_level::debug:
-                GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, fMsg);
+                GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, fMsg);
                 break;
             case helpers::log_level::trace: // fall through
             default:
