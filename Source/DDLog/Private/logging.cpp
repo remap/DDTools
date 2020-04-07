@@ -55,7 +55,9 @@ string getDefaultLoggerName();
 // init logging upon library loading
 struct _LibInitializer {
     _LibInitializer() {
+#if SPDLOG_ACTIVE_LEVEL != SPDLOG_LEVEL_OFF
         call_once(onceFlag, bind(initMainLogger));
+#endif
     }
 } libInitializer = {};
 
@@ -128,6 +130,7 @@ shared_ptr<spdlog::logger> createFileLogger(string loggerName, string logFile)
 
 void newLogger(string loggerName)
 {
+#if SPDLOG_ACTIVE_LEVEL != SPDLOG_LEVEL_OFF
 //    DLOG_TRACE("creating module logger {}", loggerName);
     shared_ptr<spdlog::logger> logger;
 
@@ -138,6 +141,7 @@ void newLogger(string loggerName)
 
     initLogger(logger);
 //    DLOG_TRACE("logger {} created", loggerName);
+#endif
 }
 
 shared_ptr<spdlog::logger> getMainLogger()
@@ -153,7 +157,8 @@ shared_ptr<spdlog::logger> getLogger(string loggerName)
 
 void flushLogger(string loggerName)
 {
-    spdlog::get(loggerName)->flush();
+    if (spdlog::get(loggerName))
+        spdlog::get(loggerName)->flush();
 }
 
 void registerCallback(shared_ptr<helpers::logger> logger, helpers::LogCallback callback)

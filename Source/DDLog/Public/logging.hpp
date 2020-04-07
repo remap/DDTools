@@ -8,12 +8,14 @@
 #ifndef __logging_hpp__
 #define __logging_hpp__
 
+// to disable logging,
+// set SPDLOG_ACTIVE_LEVEL to SPDLOG_LEVEL_OFF below
 #ifdef UE_BUILD_DEBUG
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
-DECLARE_LOG_CATEGORY_EXTERN(LogDd, VeryVerbose, All);
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+    DECLARE_LOG_CATEGORY_EXTERN(LogDd, VeryVerbose, All);
 #else
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
-DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+    DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
 #endif
 
 #include "Core.h"
