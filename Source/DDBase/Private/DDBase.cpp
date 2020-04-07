@@ -159,14 +159,14 @@ void FDDBaseModule::registerModule()
 
 void FDDBaseModule::onPostWorldCreation(UWorld *world)
 {
-    DLOG_PLUGIN_TRACE("map {} created. callback unused: override for catching world creation",
-                      TCHAR_TO_ANSI(*world->GetMapName()));
+//    DLOG_PLUGIN_TRACE("map {} created. callback unused: override for catching world creation",
+//                      TCHAR_TO_ANSI(*world->GetMapName()));
 }
 
 void FDDBaseModule::onPostWorldInitialization(UWorld *world)
 {
-    DLOG_PLUGIN_TRACE("map {} initialized. callback unused: override for catching world initialization",
-                      TCHAR_TO_ANSI(*world->GetMapName()));
+//    DLOG_PLUGIN_TRACE("map {} initialized. callback unused: override for catching world initialization",
+//                      TCHAR_TO_ANSI(*world->GetMapName()));
 }
 
 //******************************************************************************
