@@ -50,8 +50,14 @@ void FDDModuleManager::onPostWorldCreation(UWorld *world)
 {
     if (world)
     {
-//        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
-        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
+        if (!world->GetMapName().Equals(FString("Untitled_0")))
+        {
+            if (!((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_)
+            {
+                DLOG_TRACE("set base world: {}", TCHAR_TO_ANSI(*world->GetMapName()));
+                ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
+            }
+        }
         ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldCreation(world);
     }
     else
