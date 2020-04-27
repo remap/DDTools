@@ -50,8 +50,11 @@ void FDDModuleManager::onPostWorldCreation(UWorld *world)
 {
     if (world)
     {
-        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
-        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldCreation(world);
+        DLOG_DEBUG("Set world to {}", TCHAR_TO_ANSI(*world->GetMapName()));
+        
+        FDDModuleManager *singleton = (FDDModuleManager *)FDDModuleManager::getSharedInstance();
+        
+        singleton->notifyPostWorldCreation(world);
     }
     else
         DLOG_ERROR("the world is null");
@@ -61,9 +64,12 @@ void FDDModuleManager::onPostWorldInitialization(UWorld *world, UWorld::Initiali
 {
     if (world)
     {
-//        DLOG_TRACE("map name: {}", TCHAR_TO_ANSI(*world->GetMapName()));
-//        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->lastWorldCreated_ = world;
-        ((FDDModuleManager*)FDDModuleManager::getSharedInstance())->notifyPostWorldInitialization(world);
+        DLOG_DEBUG("World initialized: {}", TCHAR_TO_ANSI(*world->GetMapName()));
+        
+        FDDModuleManager *singleton = (FDDModuleManager *)FDDModuleManager::getSharedInstance();
+        
+        singleton->lastWorldCreated_ = world;
+        singleton->notifyPostWorldInitialization(world);
     }
     else
         DLOG_ERROR("the world is null");
