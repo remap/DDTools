@@ -4,6 +4,7 @@
 #include "DDBlueprintLibrary.h"
 #include "DDLog.h"
 #include "DDManager.h"
+#include <Misc/NetworkVersion.h>
 
 using namespace std;
 
@@ -61,6 +62,21 @@ FString UDDBlueprintLibrary::getGameNetMode()
     }
     
     return FString("Unknown");
+}
+
+FString UDDBlueprintLibrary::getNetworkVersion()
+{
+    // this is ridiculous -- blueprints don't support uint32 so
+    // we do printf of uint to char* then convert to FString
+    // why, Epic?...
+    
+    char networkVersion[256];
+    memset(networkVersion, 0, 256);
+    
+    unsigned int nwVersion =  FNetworkVersion::GetLocalNetworkVersion(false);
+    sprintf(networkVersion, "%u", nwVersion);
+    
+    return FString(networkVersion);
 }
 
 FString UDDBlueprintLibrary::getBuildType()

@@ -34,6 +34,9 @@ public:
     static FString getGameNetMode();
     
     UFUNCTION(BlueprintCallable, Category = "DDManager")
+    static FString getNetworkVersion();
+    
+    UFUNCTION(BlueprintCallable, Category = "DDManager")
     static FString getBuildType();
     
     UFUNCTION(BlueprintCallable, Category = "DDManager")
