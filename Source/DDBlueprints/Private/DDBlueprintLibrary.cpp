@@ -73,7 +73,7 @@ FString UDDBlueprintLibrary::getNetworkVersion()
     char networkVersion[256];
     memset(networkVersion, 0, 256);
     
-    unsigned int nwVersion =  FNetworkVersion::GetLocalNetworkVersion(false);
+    unsigned int nwVersion =  FNetworkVersion::GetLocalNetworkVersion(true);
     sprintf(networkVersion, "%u", nwVersion);
     
     return FString(networkVersion);
