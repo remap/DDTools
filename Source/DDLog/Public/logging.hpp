@@ -8,14 +8,27 @@
 #ifndef __logging_hpp__
 #define __logging_hpp__
 
-// to disable logging,
-// set SPDLOG_ACTIVE_LEVEL to SPDLOG_LEVEL_OFF below
+// to disable logging for windows
+#if PLATFORM_WINDOWS
+
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+
+#ifdef UE_BUILD_DEBUG    
+    DECLARE_LOG_CATEGORY_EXTERN(LogDd, VeryVerbose, All);
+#else
+    DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
+#endif
+
+#else
+
 #ifdef UE_BUILD_DEBUG
     #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
     DECLARE_LOG_CATEGORY_EXTERN(LogDd, VeryVerbose, All);
 #else
     #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
     DECLARE_LOG_CATEGORY_EXTERN(LogDd, Log, All);
+#endif
+
 #endif
 
 #include "Core.h"
