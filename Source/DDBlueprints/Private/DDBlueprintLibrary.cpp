@@ -111,9 +111,32 @@ FString UDDBlueprintLibrary::getServerIp()
 int UDDBlueprintLibrary::getServerPort()
 {
     UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
-     
-     if (world)
-         return world ->URL.Port;
+    
+    if (world)
+        return world ->URL.Port;
     
     return 0;
+}
+
+FString UDDBlueprintLibrary::GetCrossPlatformWriteableFolder()
+{
+#if PLATFORM_ANDROID
+    char cmdLine[512];
+    FILE *f = fopen("/proc/self/cmdline", "r");
+    if (f)
+    {
+        size_t c = fread(cmdLine, 512, 1, f);
+    }
+    else
+        DDLOG_ERROR("FAILED TO READ /proc/self/cmdline");
+    
+    return FString("/data/data/"+string(cmdLine));
+#elif PLATFORM_IOS
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    return FString([documentsDirectory UTF8String]);
+#else
+    return FPaths::ProjectUserDir();
+#endif
 }

@@ -51,6 +51,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DDManager")
     static int getServerPort();
     
+    UFUNCTION(BlueprintCallable, Category = "DDUtils" )
+    static FString GetCrossPlatformWriteableFolder();
+    
 	GENERATED_BODY()
 
 };
