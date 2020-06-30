@@ -54,6 +54,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DDUtils" )
     static FString GetCrossPlatformWriteableFolder();
     
+    UFUNCTION(BlueprintCallable, Category = "DDUtils")
+    static ULevel* getActorLevel(AActor* actor);
+    
 	GENERATED_BODY()
 
 };

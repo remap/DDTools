@@ -128,9 +128,9 @@ FString UDDBlueprintLibrary::GetCrossPlatformWriteableFolder()
         size_t c = fread(cmdLine, 512, 1, f);
     }
     else
-        DDLOG_ERROR("FAILED TO READ /proc/self/cmdline");
+        DLOG_ERROR("FAILED TO READ /proc/self/cmdline");
     
-    return FString("/data/data/"+string(cmdLine));
+    return FString(("/data/data/"+string(cmdLine)).c_str());
 #elif PLATFORM_IOS
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -139,4 +139,9 @@ FString UDDBlueprintLibrary::GetCrossPlatformWriteableFolder()
 #else
     return FPaths::ProjectUserDir();
 #endif
+}
+
+ULevel* UDDBlueprintLibrary::getActorLevel(AActor* actor)
+{
+    return actor->GetLevel();
 }
