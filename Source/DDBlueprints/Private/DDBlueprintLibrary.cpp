@@ -86,7 +86,9 @@ FString UDDBlueprintLibrary::getBuildType()
 
 FString UDDBlueprintLibrary::getLoggingLevel()
 {
-    return FString(spdlog::level::to_short_c_str(ddlog::getMainLogger()->level()));
+    if (ddlog::getMainLogger())
+        return FString(spdlog::level::to_short_c_str(ddlog::getMainLogger()->level()));
+    return FString("n/a");
 }
 
 FString UDDBlueprintLibrary::getServerIp()
