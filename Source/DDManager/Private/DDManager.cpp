@@ -43,6 +43,8 @@ static IDDModuleManagerInterface *SingletonInstance = nullptr;
 
 IDDModuleManagerInterface* FDDModuleManager::getSharedInstance()
 {
+    if (!SingletonInstance) DLOG_ERROR("DDModuleManager is not initialized. This may result in crash");
+
     return SingletonInstance;
 }
 
@@ -116,10 +118,10 @@ FString FDDModuleManager::getBuildType() const
 
 void FDDModuleManager::StartupModule()
 {
-//    DLOG_DEBUG("DD Module Manager Startup");
-
     checkf(!SingletonInstance, TEXT("DD Module Manager singleton is already initialized"));
     SingletonInstance = this;
+ 
+    DLOG_DEBUG("DD Module Manager Startup");
     
     FWorldDelegates::OnPostWorldCreation.AddStatic( &FDDModuleManager::onPostWorldCreation);
     FWorldDelegates::OnPostWorldInitialization.AddStatic(&onPostWorldInitialization);

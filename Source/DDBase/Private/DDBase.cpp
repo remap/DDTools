@@ -111,10 +111,12 @@ void FDDBaseModule::initWidgetPanel()
 {
     string packagePath = "/"+moduleName_;
     TArray<TAssetSubclassOf<UObject>> widgets;
-    ddhelpers::GetAllBlueprintSubclasses(widgets,
-                                        FName("DDModuleWidget"),
-                                        false,
-                                        FString(packagePath.c_str()));
+    
+    // TODO: fix crash in 4.25
+//    ddhelpers::GetAllBlueprintSubclasses(widgets,
+//                                        FName("DDModuleWidget"),
+//                                        false,
+//                                        FString(packagePath.c_str()));
 
     if (widgets.Num())
     {
