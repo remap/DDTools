@@ -26,6 +26,8 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DD Module Widget")
     FName getModuleNetworkMode();
     
+    FPrimaryAssetId GetPrimaryAssetId() const override;
+    
     void setModule(IDDModuleInterface *module);
 
 protected:

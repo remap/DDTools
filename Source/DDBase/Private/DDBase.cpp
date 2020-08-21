@@ -86,8 +86,11 @@ FString FDDBaseModule::getNetworkMode() const
     return FString("TBD"); //NETMODE_WORLD);
 }
 
-TSubclassOf<UUserWidget> FDDBaseModule::getWidgetBlueprint() const
+TSubclassOf<UUserWidget> FDDBaseModule::getWidgetBlueprint()
 {
+    if (!infoPanelBp_)
+        initWidgetPanel();
+    
     return infoPanelBp_;
 }
 
@@ -103,7 +106,7 @@ void FDDBaseModule::initModule(string moduleName, string pluginVersion)
                      TCHAR_TO_ANSI(*getBuildType()),
                      TCHAR_TO_ANSI(*getNetworkMode()));
 
-    initWidgetPanel();
+//    initWidgetPanel();
     registerModule();
 }
 
@@ -113,12 +116,15 @@ void FDDBaseModule::initWidgetPanel()
     TArray<TAssetSubclassOf<UObject>> widgets;
     
     // TODO: fix crash in 4.25
+    int res = ddhelpers::getWidgets(FString("DDModuleWidget"),
+                                    FString(packagePath.c_str()),
+                                    widgets);
 //    ddhelpers::GetAllBlueprintSubclasses(widgets,
 //                                        FName("DDModuleWidget"),
 //                                        false,
 //                                        FString(packagePath.c_str()));
 
-    if (widgets.Num())
+    if (res)
     {
         infoPanelBp_ = widgets[0].Get();
         DLOG_PLUGIN_DEBUG("plugin panel {}", TCHAR_TO_ANSI(*widgets[0].GetAssetName()));

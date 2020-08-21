@@ -25,7 +25,7 @@ public:
     virtual FString getModuleVersion() const override;
     virtual FString getBuildType() const override;
     virtual FString getNetworkMode() const override;
-    virtual TSubclassOf<UUserWidget> getWidgetBlueprint() const override;
+    virtual TSubclassOf<UUserWidget> getWidgetBlueprint() override;
 
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;

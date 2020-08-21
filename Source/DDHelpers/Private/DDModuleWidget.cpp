@@ -44,9 +44,14 @@ UDDModuleWidget::getModuleNetworkMode()
     return FName(TEXT("n/a"));
 }
 
-
 void
 UDDModuleWidget::setModule(IDDModuleInterface *module)
 {
     module_ = module;
+}
+
+FPrimaryAssetId
+UDDModuleWidget::GetPrimaryAssetId() const
+{
+    return FPrimaryAssetId("DDModuleWidget", GetFName());
 }
