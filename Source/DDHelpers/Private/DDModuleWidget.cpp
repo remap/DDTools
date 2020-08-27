@@ -49,9 +49,3 @@ UDDModuleWidget::setModule(IDDModuleInterface *module)
 {
     module_ = module;
 }
-
-FPrimaryAssetId
-UDDModuleWidget::GetPrimaryAssetId() const
-{
-    return FPrimaryAssetId("DDModuleWidget", GetFName());
-}

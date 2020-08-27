@@ -106,7 +106,6 @@ void FDDBaseModule::initModule(string moduleName, string pluginVersion)
                      TCHAR_TO_ANSI(*getBuildType()),
                      TCHAR_TO_ANSI(*getNetworkMode()));
 
-//    initWidgetPanel();
     registerModule();
 }
 
@@ -115,14 +114,9 @@ void FDDBaseModule::initWidgetPanel()
     string packagePath = "/"+moduleName_;
     TArray<TAssetSubclassOf<UObject>> widgets;
     
-    // TODO: fix crash in 4.25
     int res = ddhelpers::getWidgets(FString("DDModuleWidget"),
                                     FString(packagePath.c_str()),
                                     widgets);
-//    ddhelpers::GetAllBlueprintSubclasses(widgets,
-//                                        FName("DDModuleWidget"),
-//                                        false,
-//                                        FString(packagePath.c_str()));
 
     if (res)
     {
