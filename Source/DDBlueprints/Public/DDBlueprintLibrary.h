@@ -57,6 +57,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DDUtils")
     static ULevel* getActorLevel(AActor* actor);
     
+    UFUNCTION(BlueprintCallable, Category = "DDUtils")
+    static FString getBundleVersionString();
+    
 	GENERATED_BODY()
 
 };

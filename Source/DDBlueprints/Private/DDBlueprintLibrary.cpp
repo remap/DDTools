@@ -6,6 +6,10 @@
 #include "DDManager.h"
 #include <Misc/NetworkVersion.h>
 
+#if PLATFORM_MAC | PLATFORM_IOS
+#import <Foundation/Foundation.h>
+#endif
+
 using namespace std;
 
 void UDDBlueprintLibrary::LogInfo(FString fText)
@@ -166,4 +170,14 @@ FString UDDBlueprintLibrary::GetCrossPlatformWriteableFolder()
 ULevel* UDDBlueprintLibrary::getActorLevel(AActor* actor)
 {
     return actor->GetLevel();
+}
+
+FString UDDBlueprintLibrary::getBundleVersionString()
+{
+#if PLATFORM_MAC | PLATFORM_IOS
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    return FString([version UTF8String]);
+#else
+    return FString();
+#endif
 }
