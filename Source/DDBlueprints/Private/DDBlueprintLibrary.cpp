@@ -64,24 +64,27 @@ void UDDBlueprintLibrary::LogTrace(FString fText)
 
 FString UDDBlueprintLibrary::getGameNetMode()
 {
-    UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
-    
-    if (world)
+    if (FDDModuleManager::getSharedInstance())
     {
-        ENetMode mode = world->GetNetMode();
+        UWorld *world = FDDModuleManager::getSharedInstance()->getLastWorldCreated();
         
-        switch (mode) {
-            case NM_Standalone:
-                return FString("NM_Standalone");
-            case NM_DedicatedServer:
-                return FString("NM_DedicatedServer");
-            case NM_ListenServer:
-                return FString("NM_ListenServer");
-            case NM_Client:
-                return FString("NM_Client");
-            default:
-                break;
-                
+        if (world)
+        {
+            ENetMode mode = world->GetNetMode();
+            
+            switch (mode) {
+                case NM_Standalone:
+                    return FString("NM_Standalone");
+                case NM_DedicatedServer:
+                    return FString("NM_DedicatedServer");
+                case NM_ListenServer:
+                    return FString("NM_ListenServer");
+                case NM_Client:
+                    return FString("NM_Client");
+                default:
+                    break;
+                    
+            }
         }
     }
     
