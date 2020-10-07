@@ -116,7 +116,7 @@ shared_ptr<spdlog::logger> createFileLogger(string loggerName, string logFile)
     static once_flag flag1;
     call_once(flag1, [&](){
         auto rotateFileSink = make_shared<spdlog::sinks::rotating_file_sink_mt>(logFile,
-                                                                                10*1024*1024, 3);
+                                                                                2*1024*1024, 3);
         sinks.push_back(rotateFileSink);
     });
 
