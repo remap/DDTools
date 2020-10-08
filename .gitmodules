@@ -1,3 +1,4 @@
 [submodule "Source/ThirdParty/depsReLog/spdlog"]
 	path = Source/ThirdParty/depsReLog/spdlog
 	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
