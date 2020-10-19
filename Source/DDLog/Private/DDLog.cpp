@@ -15,13 +15,16 @@ using namespace ddlog;
 
 FDDLogModule::FDDLogModule() {}
 FDDLogModule::~FDDLogModule() {}
-void FDDLogModule::StartupModule() {}
+void FDDLogModule::StartupModule()
+{
+    initLogger("DDLog");
+}
 void FDDLogModule::ShutdownModule() {}
 
 void FDDLogModule::initLogger(std::string loggerName)
 {
     newLogger(loggerName);
-    logger_ = getLogger(loggerName);
+    logger_ = ddlog::getLogger(loggerName);
 }
 
 #undef LOCTEXT_NAMESPACE

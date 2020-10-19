@@ -56,6 +56,8 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
+    const std::shared_ptr<ddlog::helpers::logger> getLogger() const { return logger_; }
+    
 protected:
     std::shared_ptr<ddlog::helpers::logger> logger_;
 

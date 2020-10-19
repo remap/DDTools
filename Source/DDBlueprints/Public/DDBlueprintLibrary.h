@@ -60,6 +60,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "DDUtils")
     static FString getBundleVersionString();
     
+    UFUNCTION(BlueprintCallable, Category = "DDUtils")
+    static TArray<FString> getRegisteredModuleNames();
+    
 	GENERATED_BODY()
 
 };

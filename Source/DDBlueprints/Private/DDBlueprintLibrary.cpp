@@ -17,9 +17,11 @@ void UDDBlueprintLibrary::LogInfo(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_INFO(text);
     
+#if WITH_EDITOR
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, fText);
+#endif
 }
 
 void UDDBlueprintLibrary::LogWarning(FString fText)
@@ -27,9 +29,11 @@ void UDDBlueprintLibrary::LogWarning(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_WARN(text);
     
+#if WITH_EDITOR
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, fText);
+#endif
 }
 
 void UDDBlueprintLibrary::LogError(FString fText)
@@ -37,9 +41,11 @@ void UDDBlueprintLibrary::LogError(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_ERROR(text);
     
+#if WITH_EDITOR
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, fText);
+#endif
 }
 
 void UDDBlueprintLibrary::LogDebug(FString fText)
@@ -47,9 +53,11 @@ void UDDBlueprintLibrary::LogDebug(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_DEBUG(text);
     
+#if WITH_EDITOR
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, fText);
+#endif
 }
 
 void UDDBlueprintLibrary::LogTrace(FString fText)
@@ -57,9 +65,11 @@ void UDDBlueprintLibrary::LogTrace(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_TRACE(text);
     
+#if WITH_EDITOR
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, fText);
+#endif
 }
 
 FString UDDBlueprintLibrary::getGameNetMode()
@@ -183,4 +193,20 @@ FString UDDBlueprintLibrary::getBundleVersionString()
 #else
     return FString();
 #endif
+}
+
+TArray<FString> UDDBlueprintLibrary::getRegisteredModuleNames()
+{
+    TArray<FString> modules;
+    IDDModuleManagerInterface *manager = FDDModuleManager::getSharedInstance();
+    
+    if (manager)
+    {
+        vector<IDDModuleInterface*> arr = manager->getRegisteredModules();
+        
+        for (auto& m : arr)
+            modules.Add(m->getModuleName());
+    }
+    
+    return modules;
 }
