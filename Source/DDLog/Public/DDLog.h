@@ -31,6 +31,12 @@
 #include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 #include "logging.hpp"
 
+// use these macro below for logging anywhere inside a plugin code
+// the first argument specifies plugin name:
+//      DLOG_MODULE_TRACE(FiducialRelocalized,
+//                        "AR Alignment transform: {}",
+//                        TCHAR_TO_ANSI(*t.ToString()));
+//
 #define DLOG_MODULE_TRACE(mname, ...) DLOG_LOGGER_TRACE(ddlog::getLogger(#mname), ##__VA_ARGS__)
 #define DLOG_MODULE_DEBUG(mname, ...) DLOG_LOGGER_DEBUG(ddlog::getLogger(#mname), ##__VA_ARGS__)
 #define DLOG_MODULE_INFO(mname, ...) DLOG_LOGGER_INFO(ddlog::getLogger(#mname), ##__VA_ARGS__)

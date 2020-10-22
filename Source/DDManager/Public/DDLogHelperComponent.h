@@ -8,7 +8,7 @@
 #include "DDLogHelperComponent.generated.h"
 
 UCLASS(ClassGroup=(DDLogInspector),Blueprintable, meta=(BlueprintSpawnableComponent))
-class DDLOG_API ULogEntryItem : public UObject {
+class DDMANAGER_API ULogEntryItem : public UObject {
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadWrite)
@@ -26,7 +26,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNewLogMessages,
                                   const TArray<FString>&, messages);
 
 UCLASS( ClassGroup=(DDLogInspector), meta=(BlueprintSpawnableComponent) )
-class DDLOG_API UDDLogHelperComponent : public UActorComponent
+class DDMANAGER_API UDDLogHelperComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
