@@ -81,9 +81,10 @@ DDLoggerInspector::getSharedInstance()
 DDLoggerInspector::DDLoggerInspector(size_t bufferSize) :
 bufferSize_(bufferSize)
 {
+#if !PLATFORM_WINDOWS
     newLogger("DDLoggerInspector");
     logger_ = getLogger("DDLoggerInspector");
-    
+#endif
     unreadBegin_ = buffer_.end();
 }
 
@@ -95,6 +96,7 @@ DDLoggerInspector::~DDLoggerInspector()
 bool
 DDLoggerInspector::init()
 {
+#if !PLATFORM_WINDOWS
     IDDModuleManagerInterface *manager = FDDModuleManager::getSharedInstance();
     
     if (!manager)
@@ -125,7 +127,7 @@ DDLoggerInspector::init()
             }
         }
     }
-    
+#endif
     return true;
 }
 
@@ -173,13 +175,14 @@ DDLoggerInspector::getUnread(int limit)
 void
 DDLoggerInspector::setFilter(const DDLoggerInspector::LogFilter& f)
 {
+#if !PLATFORM_WINDOWS
     stringstream ss;
     ss << "log levels ";
     for (auto &l : f.logLevels_) ss << spdlog::level::to_short_c_str(l) << " ";
     ss << "module names ";
     for (auto &m : f.moduleNames_) ss << m << " ";
     DLOG_LOGGER_TRACE(logger_, "set new filter: {}", ss.str());
-    
+#endif
     filter_ = f;
 }
 
