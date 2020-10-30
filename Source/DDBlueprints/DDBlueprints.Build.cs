@@ -31,7 +31,8 @@ public class DDBlueprints : ModuleRules
 			new string[]
 			{
 				"Core",
-                "DDHelpers"
+				"UMG",
+				"DDHelpers"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

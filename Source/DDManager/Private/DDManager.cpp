@@ -8,6 +8,7 @@
 
 #include "DDManager.h"
 #include "DDLog.h"
+#include "DDModuleWidget.h"
 
 #include <AssetRegistryModule.h>
 
@@ -100,7 +101,7 @@ const std::vector<IDDModuleInterface*>& FDDModuleManager::getRegisteredModules()
     return registeredModules_;
 }
 
-IDDModuleInterface* FDDModuleManager::getModule(FString moduleName)
+IDDModuleInterface* FDDModuleManager::getModule(FString moduleName) const
 {
     for (auto ddModule : registeredModules_)
     {
@@ -114,6 +115,37 @@ IDDModuleInterface* FDDModuleManager::getModule(FString moduleName)
 FString FDDModuleManager::getBuildType() const
 {
     return FString(BUILD_TYPE_FULL(BUILD_TYPE));
+}
+
+UDDModuleWidget* FDDModuleManager::createWidget(UUserWidget* parentWidget, FString moduleName) const
+{
+    IDDModuleInterface* m = getModule(moduleName);
+    if (m)
+    {
+        if (m->getWidgetBlueprint())
+        {
+            DLOG_PLUGIN_DEBUG(DDManager, "creating widget for module {}",
+                TCHAR_TO_ANSI(*m->getModuleName()));
+
+            UDDModuleWidget* w = CreateWidget<UDDModuleWidget>(parentWidget,
+                m->getWidgetBlueprint());
+
+            if (w)
+            {
+                w->setModule(m);
+
+                DLOG_PLUGIN_DEBUG(DDManager, "successfully created widget for module {}",
+                    TCHAR_TO_ANSI(*ddModule->getModuleName()));
+
+                return w;
+            }
+            else
+                DLOG_PLUGIN_WARN(DDManager, "Failed to create widget for module {}",
+                    TCHAR_TO_ANSI(*ddModule->getModuleName()));
+        }
+    }
+
+    return nullptr;
 }
 
 void FDDModuleManager::StartupModule()

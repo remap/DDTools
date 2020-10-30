@@ -210,3 +210,16 @@ TArray<FString> UDDBlueprintLibrary::getRegisteredModuleNames()
     
     return modules;
 }
+
+UDDModuleWidget* UDDBlueprintLibrary::createWidgetForModule(UUserWidget* parentWidget, FString moduleName)
+{
+    UDDModuleWidget* w = nullptr;
+    const IDDModuleManagerInterface* manager = FDDModuleManager::getSharedInstance();
+
+    if (manager)
+    {
+        w = manager->createWidget(parentWidget, moduleName);
+    }
+
+    return w;
+}

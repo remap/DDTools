@@ -62,6 +62,9 @@ public:
     
     UFUNCTION(BlueprintCallable, Category = "DDUtils")
     static TArray<FString> getRegisteredModuleNames();
+
+    UFUNCTION(BlueprintCallable, Category = "DDManager")
+    static UDDModuleWidget* createWidgetForModule(UUserWidget* parentWidget, FString moduleName);
     
 	GENERATED_BODY()
 
