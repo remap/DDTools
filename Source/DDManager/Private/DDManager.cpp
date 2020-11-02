@@ -124,7 +124,7 @@ UDDModuleWidget* FDDModuleManager::createWidget(UUserWidget* parentWidget, FStri
     {
         if (m->getWidgetBlueprint())
         {
-            DLOG_PLUGIN_DEBUG(DDManager, "creating widget for module {}",
+            DLOG_DEBUG("creating widget for module {}",
                 TCHAR_TO_ANSI(*m->getModuleName()));
 
             UDDModuleWidget* w = CreateWidget<UDDModuleWidget>(parentWidget,
@@ -134,14 +134,14 @@ UDDModuleWidget* FDDModuleManager::createWidget(UUserWidget* parentWidget, FStri
             {
                 w->setModule(m);
 
-                DLOG_PLUGIN_DEBUG(DDManager, "successfully created widget for module {}",
-                    TCHAR_TO_ANSI(*ddModule->getModuleName()));
+                DLOG_DEBUG("successfully created widget for module {}",
+                    TCHAR_TO_ANSI(*m->getModuleName()));
 
                 return w;
             }
             else
-                DLOG_PLUGIN_WARN(DDManager, "Failed to create widget for module {}",
-                    TCHAR_TO_ANSI(*ddModule->getModuleName()));
+                DLOG_WARN("Failed to create widget for module {}",
+                    TCHAR_TO_ANSI(*m->getModuleName()));
         }
     }
 
