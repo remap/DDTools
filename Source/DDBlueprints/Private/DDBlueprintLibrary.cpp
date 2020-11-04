@@ -17,7 +17,7 @@ void UDDBlueprintLibrary::LogInfo(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_INFO(text);
     
-#if WITH_EDITOR
+#if WITH_EDITOR || PLATFORM_WINDOWS
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, fText);
@@ -29,7 +29,7 @@ void UDDBlueprintLibrary::LogWarning(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_WARN(text);
     
-#if WITH_EDITOR
+#if WITH_EDITOR || PLATFORM_WINDOWS
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, fText);
@@ -41,7 +41,7 @@ void UDDBlueprintLibrary::LogError(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_ERROR(text);
     
-#if WITH_EDITOR
+#if WITH_EDITOR || PLATFORM_WINDOWS
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, fText);
@@ -53,7 +53,7 @@ void UDDBlueprintLibrary::LogDebug(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_DEBUG(text);
     
-#if WITH_EDITOR
+#if WITH_EDITOR || PLATFORM_WINDOWS
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, fText);
@@ -65,7 +65,7 @@ void UDDBlueprintLibrary::LogTrace(FString fText)
     string text(TCHAR_TO_UTF8(*fText));
     DLOG_TRACE(text);
     
-#if WITH_EDITOR
+#if WITH_EDITOR || PLATFORM_WINDOWS
     // in-editor printing
     if(GEngine)
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, fText);
